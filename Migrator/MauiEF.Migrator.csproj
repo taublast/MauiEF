@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+
+	  <!--Looks like we are on Windows-->
+	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+	  <!--Looks like we are not on Windows.. Expected MacOS-->
+	  <TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('windows'))">net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+
+	  <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+	  <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+	  <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;MIGRATOR</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;MIGRATOR</DefineConstants>
+  </PropertyGroup>
+
+	<ItemGroup>
+
+		<PackageReference Include="CommunityToolkit.Maui" Version="1.3.0" />
+
+
+		<!--Local database-->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.3" />
+		<!--To be able to create migrations-->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Shared\MauiEF.Shared.csproj" />
+	</ItemGroup>
+
+</Project>
