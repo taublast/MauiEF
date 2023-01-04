@@ -6,7 +6,7 @@
 	  <!--Looks like we are on Windows-->
 	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
 	  <!--Looks like we are not on Windows.. Expected MacOS-->
-	  <TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('windows'))">net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+	  <TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('windows'))">net7.0-ios</TargetFrameworks>
 
 	  <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -14,14 +14,8 @@
 	  <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 	  <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 
-  </PropertyGroup>
+	  <ApplicationId>com.companyname.mauief.migrator</ApplicationId>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;MIGRATOR</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;MIGRATOR</DefineConstants>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -37,7 +31,6 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-
 
 	</ItemGroup>
 
