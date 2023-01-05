@@ -66,6 +66,5 @@ namespace MauiEF.Shared.Services
 			Database.OpenConnection();
 		}
 
-
 	}
 }

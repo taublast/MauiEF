@@ -23,7 +23,7 @@
 
             <Label
                 x:Name="LabelInfo"
-                Text="Welcome to .NET Multi-platform App UI"
+                Text="Welcome to EF Core .NET Maui App UI"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I"
                 FontSize="18"
