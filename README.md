@@ -1,2 +1,2 @@
 # MauiEF
-Using Entity Framework (EF) in .Net Maui
+Entity Framework WIth Code-First Migrations in .Net Maui
