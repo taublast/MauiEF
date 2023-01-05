@@ -23,7 +23,7 @@ namespace MauiEF.Shared.Services
 		/// </summary>
 		public LocalDatabase()
 		{
-			File = Path.Combine("../", "Data1.db3");
+			File = Path.Combine("../", "UsedByMigratorOnly1.db3");
 			Initialize();
 		}
 
