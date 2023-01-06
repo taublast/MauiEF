@@ -147,7 +147,7 @@ If you are using **Visual Studio for Windows** :
 
 4. Enter the following command to create the initial migration:
 
-    ```csharp
+```csharp
 add-migration Initial -Context MauiEF.Shared.Services.LocalDatabase -Verbose
 ```
 ![Image](https://github.com/taublast/MauiEF/blob/main/Images/image2.jpg?raw=true)
@@ -163,15 +163,16 @@ The next method via command like will be illustrated using **Visual Studio for 
 You will notice that we specified our startup project subfolder **-s Migrator** and default project subfolder **-p Shared**.
 
 If you encounter an error due to ef command not present, install it and add it to global path:
-
-    dotnet tool install --global dotnet-ef
-    export PATH="$PATH:/Users/YOUR_USERNAME/.dotnet/tools"
-
+```csharp
+dotnet tool install --global dotnet-ef
+export PATH="$PATH:/Users/YOUR_USERNAME/.dotnet/tools"
+```
 Every time you change your context models you'd have to create additional migrations. This way your app won't break, if you release a new version with modified migrations EF will (most probably) keep the user's existing database and modify it according to the new scheme upon initialization of your context model. Why most probably? Because you might change your models in a way a foreign key relation or property will be lost, in this case EF will warn you when creating a migration with something like "Warning data will be lost", so it's all under your control, to manage the existing users old apps versions data.
 
 To create a new migration just create a unique name for it (**Visual Studio for Windows** example):
-
-    add-migration Change1 -Context MauiEF.Shared.Services.LocalDatabase -Verbose
+```csharp
+add-migration Change1 -Context MauiEF.Shared.Services.LocalDatabase -Verbose
+```
 
 ## Run The App
 
@@ -179,11 +180,111 @@ We can now compile our sample and run, to have user-created data to be persisten
 
 As you will see the sample is a Maui App template with database logic added. Context operations are executed asynchronously, so we don't block the UI thread.
 
-<details open>
-    <summary>MainPage.cs</summary>
-
+<details open><summary>MainPage.cs</summary>
 ```csharp
- //TODO
+public partial class MainPage : ContentPage
+{
+    int count = 0;
+    private readonly LocalDatabase _context;
+    private Author _author;
+
+    public MainPage()
+    {
+        _context = App.Services.GetService<LocalDatabase>();
+
+        InitializeComponent();
+
+        var mainAuthor = _context.Authors
+            .Include(i => i.Books)
+            .FirstOrDefault(x => x.FirstName == "John" && x.LastName == "Doe");
+        if (mainAuthor == null)
+        {
+            Task.Run(async () =>
+            {
+                mainAuthor = new Author()
+                {
+                    FirstName = "John",
+                    LastName = "Doe"
+                };
+                _context.Authors.Add(mainAuthor);
+                await _context.SaveChangesAsync();
+                _author = mainAuthor;
+                Update();
+
+            }).ConfigureAwait(false);
+        }
+        else
+        {
+            _author = mainAuthor;
+            Update();
+        }
+
+    }
+
+    private void OnCounterClicked(object sender, EventArgs e)
+    {
+        count++;
+
+        var title = $"My Story Part {count}";
+        var book = _author.Books.FirstOrDefault(x => x.Title == title);
+        if (book == null)
+        {
+            CounterBtn.Text = $"Wrote \"{title}\"";
+
+            Task.Run(async () =>
+            {
+                _author.Books.Add(new Book
+                {
+                    Title = title
+                });
+                _context.Authors.Update(_author);
+                await _context.SaveChangesAsync();
+
+                Update();
+
+            }).ConfigureAwait(false);
+        }
+        else
+        {
+            CounterBtn.Text = $"Reading \"{title}\"";
+        }
+
+        SemanticScreenReader.Announce(CounterBtn.Text);
+    }
+
+    void Update()
+    {
+        if (_author != null)
+        {
+            var name = $"{_author.FirstName} {_author.LastName}".Trim();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                LabelInfo.Text = $"{name} have written {_author.Books.Count} book(s)!";
+            });
+
+        }
+    }
+
+    private void OnDeleteClicked(object sender, EventArgs e)
+    {
+        CounterBtn.Text = $"Click Me!";
+        count = 0;
+
+        if (_author != null)
+        {
+            _author.Books.Clear();
+            Task.Run(async () =>
+            {
+                _context.Authors.Update(_author);
+                await _context.SaveChangesAsync();
+                Update();
+
+            }).ConfigureAwait(false);
+        }
+    }
+}
+
 ```
 </details>
     
