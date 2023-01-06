@@ -235,4 +235,4 @@ A small note: when you compile your EF Maui app for iOS Release it could crash
 ```
 Apps compiled with such settings already have been approved to AppStore and no performance impact has been reported.
 
-I hope you would find this small article to be useful!
+I hope you would find this small article to be useful! Please feel free to ask questions if any: [@nickkovalsky](https://twitter.com/nickkovalsky "@nickkovalsky")
