@@ -119,9 +119,9 @@ public class LocalDatabase : DbContext
 
 </details>
 
-Notice 2 constructors here, one for the EF migrator and one for our app consumption. **Database.Migrate();** creates the database files if it dowsn't exist and applies provided migrations.
+Notice 2 constructors here, one for the EF migrator and one for our app consumption. **Database.Migrate();** creates database file if it doesn't exist and applies provided migrations.
 
-You might maybe want to implement the **Database.EnsureDeleted();** method for debug purposes, to wipe out the data at start.
+You might also want to implement the **Database.EnsureDeleted();** method for debug purposes, to wipe out the data at start.
 
 In case you have a breaking app change you might also want change the database filename to recreate the db from scratch for existing users.
 
