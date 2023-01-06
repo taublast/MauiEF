@@ -137,7 +137,7 @@ builder.Services.AddTransient<LocalDatabase>((services) =>
 
 The provided source code doesn’t include migrations. If you just compile and run the solution it will throw an exception, as EF would not know how you what it to **Migrate();**. 
 
-But please don't worry migrations are very easy to create.
+Migrations are very easy to create.
 
 If you are using **Visual Studio for Windows** :
 
