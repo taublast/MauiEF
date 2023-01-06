@@ -224,7 +224,7 @@ As you will see the sample is a Maui App template with database logic added. Con
 ```
 </details>
     
-An important note: when you compile your EF Maui app for iOS Release it would most probably crash at runtime on real device, due to the fact that iOS AOT compilation doesn't support some EF techniques. I wouldn't be more precise here, you can [read more about it](http://github.com/xamarin/xamarin-macios/issues/16228 "read more about it"), but the remedy is to add some flavor into your .csprj file for that specific case:
+A small note: when you compile your EF Maui app for iOS Release it could crash at runtime on real device, due to the fact that iOS AOT compilation doesn't support some EF techniques. I wouldn't be more precise here, you can [read more about it](http://github.com/xamarin/xamarin-macios/issues/16228 "read more about it"), but the remedy is to add some flavor into your .csprj file for that specific case:
 ```csharp
 <!--IOS RELEASE-->
 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
