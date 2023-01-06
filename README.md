@@ -182,7 +182,7 @@ We can now compile our sample and run, to have user-created data to be persisten
 As you will see the sample is a Maui App template with database logic added. Context operations are executed asynchronously, so we don't block the UI thread.
 
 <details open><summary>MainPage.cs</summary>
-
+```csharp
     public partial class MainPage : ContentPage
     {
         int count = 0;
@@ -284,8 +284,8 @@ As you will see the sample is a Maui App template with database logic added. Con
                 }).ConfigureAwait(false);
             }
         }
-    }
- 
+    } 
+```
 </details>
 
 An important note: when you run your iOS Release build on real device it will probably just crash at some point, due to the fact that iOS AOT compilation doesn't support some EF techniques. Wouldn't be more precise here, you can [read more about it](http://github.com/xamarin/xamarin-macios/issues/16228 "read more about it"), but the remedy is to add some flavor into your .csprj file:
