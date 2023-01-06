@@ -10,7 +10,7 @@ If you are a fan like me of EF and would like to use it in your mobile app, my g
 
 Just a small reminder, for better app startup time it might be better to store boostrap data to the mobile device local storage in a json form. And when it comes to managing big local data with filters, ordering and such, EF is definitely a way to go.
 
-This article's goal is to help one avoid all the hassle of looking for different solutions to small problems when implementing a production-ready mobile local database, and creating code-first migrations for it on both **Windows** and **Mac** machines. I invite you browse and to reuse this repositary sample source code, As you will see it is a Maui App template with ef database logic added.
+This article's goal is to help one avoid all the hassle of looking for different solutions to small problems when implementing a production-ready mobile local database, and creating code-first migrations for it on both **Windows** and **Mac** machines. I invite you browse and to reuse this repositary sample source code, As you will see it is a Maui App template with EF database logic added.
 
 The proven standart for a mobile client database is SQLite. We’ll instantly look for **Microsoft.EntityFrameworkCore.Sqlite** nuget package to install, along with **SQLitePCLRaw.bundle_e_sqlite3** for native sqlite implementations. To create EF migrations we’d also need to install **Microsoft.EntityFrameworkCore.Tools**.
 
