@@ -6,15 +6,13 @@
 
 ## Onboarding
 
-If you are a fan like me of Microsoft Entity Framework and would like to use it in your cross-platform mobile app, my guess is with Maui on the market it’s a good time to start.
+If you are a fan like me of EF and would like to use it in your mobile app, my guess is with Maui on the market it’s time to start.
 
-Just a small reminder, for better app startup time it might be better to store boostrap data to the mobile device local storage in a json form. But when it comes to managing big local data with filters, ordering and such, EF is definitely a way to go.
+Just a small reminder, for better app startup time it might be better to store boostrap data to the mobile device local storage in a json form. And when it comes to managing big local data with filters, ordering and such, EF is definitely a way to go.
 
-This article's goal is to help one avoid all the hassle of looking for different solutions to small problems when implementing a production-ready mobile local database. Feel free to browse and reuse this repo's sample source code.
+This article's goal is to help one avoid all the hassle of looking for different solutions to small problems when implementing a production-ready mobile local database. At the end you would find the link to the full sample source.
 
-The proven standart for a mobile client database is **SQLite**. We’ll instantly go look for **Microsoft.EntityFrameworkCore.Sqlite** nuget package to install, along with **SQLitePCLRaw.bundle_e_sqlite3** for native sqlite implementations. 
-
-To create EF migrations we’d also need to install **Microsoft.EntityFrameworkCore.Tools**.
+The proven standart for a mobile client database is SQLite. We’ll instantly look for **Microsoft.EntityFrameworkCore.Sqlite** nuget package to install, along with **SQLitePCLRaw.bundle_e_sqlite3** for native sqlite implementations. To create EF migrations we’d also need to install **Microsoft.EntityFrameworkCore.Tools**.
 
 Things are that we cannot install these nugets into our single maui project because if we then try to create migrations we’d get a nice
 
@@ -119,9 +117,9 @@ public class LocalDatabase : DbContext
 
 </details>
 
-Notice 2 constructors here, one for the EF migrator and one for our app consumption. **Database.Migrate();** creates database file if it doesn't exist and applies provided migrations.
+Notice 2 constructors here, one for the EF migrator and one for our app consumption. **Database.Migrate();** creates the database files if it dowsn't exist and applies provided migrations.
 
-You might also want to implement the **Database.EnsureDeleted();** method for debug purposes, to wipe out the data at start.
+You might maybe want to implement the **Database.EnsureDeleted();** method for debug purposes, to wipe out the data at start.
 
 In case you have a breaking app change you might also want change the database filename to recreate the db from scratch for existing users.
 
@@ -137,7 +135,7 @@ builder.Services.AddTransient<LocalDatabase>((services) =>
 
 The provided source code doesn’t include migrations. If you just compile and run the solution it will throw an exception, as EF would not know how you what it to **Migrate();**. 
 
-Migrations are very easy to create.
+But please don't worry migrations are very easy to create.
 
 If you are using **Visual Studio for Windows** :
 
@@ -149,7 +147,7 @@ If you are using **Visual Studio for Windows** :
 
 4. Enter the following command to create the initial migration:
 
-```csharp
+    ```csharp
 add-migration Initial -Context MauiEF.Shared.Services.LocalDatabase -Verbose
 ```
 ![Image](https://github.com/taublast/MauiEF/blob/main/Images/image2.jpg?raw=true)
@@ -182,6 +180,7 @@ We can now compile our sample and run, to have user-created data to be persisten
 As you will see the sample is a Maui App template with database logic added. Context operations are executed asynchronously, so we don't block the UI thread.
 
 <details open><summary>MainPage.cs</summary>
+
 ```csharp
     public partial class MainPage : ContentPage
     {
@@ -286,9 +285,9 @@ As you will see the sample is a Maui App template with database logic added. Con
         }
     } 
 ```
-</details>
 
-An important note: when you run your iOS Release build on real device it will probably just crash at some point, due to the fact that iOS AOT compilation doesn't support some EF techniques. Wouldn't be more precise here, you can [read more about it](http://github.com/xamarin/xamarin-macios/issues/16228 "read more about it"), but the remedy is to add some flavor into your .csprj file:
+</details>
+An important note: when you compile your EF Maui app for iOS Release it would most probably crash at runtime on real device, due to the fact that iOS AOT compilation doesn't support some EF techniques. I wouldn't be more precise here, you can [read more about it](http://github.com/xamarin/xamarin-macios/issues/16228 "read more about it"), but the remedy is to add some flavor into your .csprj file for that specific case:
 ```csharp
 <!--IOS RELEASE-->
 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
@@ -300,4 +299,4 @@ An important note: when you run your iOS Release build on real device it will pr
 ```
 Apps compiled with such settings already have been approved to AppStore and no performance impact has been reported.
 
-I hope this information could help you create a wonderful .Net Maui cross-platform app that uses Microsoft Entity Framework.
+I hope you would find this small article to be useful!
