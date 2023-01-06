@@ -50,19 +50,6 @@ We will define our example context inside the *Shared* project as follows:
 <details open><summary>LocalDatabase.cs</summary>
 
 ```csharp
-public class LocalDatabase : DbContext
-{
-    #region TABLES
-
-    public DbSet<Author> Authors { get; set; }
-    public DbSet<Book> Books { get; set; }
-
-    #endregion
-
-    #region CONSTRUCTOR
-
-    //parameterless constructor must be above the others,
-    //as it seems that EF Tools migrator just takes the .First() of them
 
     /// <summary>
     /// Constructor for creating migrations
@@ -95,24 +82,11 @@ public class LocalDatabase : DbContext
         }
     }
 
-    public static string File { get; protected set; }
-    public static bool Initialized { get; protected set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
             .UseSqlite($"Filename={File}");
     }
-
-    #endregion
-
-    public void Reload()
-    {
-        Database.CloseConnection();
-        Database.OpenConnection();
-    }
-
-}
 ```
 
 </details>
@@ -183,45 +157,7 @@ As you will see the sample is a Maui App template with database logic added. Con
 <details open><summary>MainPage.cs</summary>
 
 ```csharp
-public partial class MainPage : ContentPage
-{
-    int count = 0;
-    private readonly LocalDatabase _context;
-    private Author _author;
-
-    public MainPage()
-    {
-        _context = App.Services.GetService<LocalDatabase>();
-
-        InitializeComponent();
-
-        var mainAuthor = _context.Authors
-            .Include(i => i.Books)
-            .FirstOrDefault(x => x.FirstName == "John" && x.LastName == "Doe");
-        if (mainAuthor == null)
-        {
-            Task.Run(async () =>
-            {
-                mainAuthor = new Author()
-                {
-                    FirstName = "John",
-                    LastName = "Doe"
-                };
-                _context.Authors.Add(mainAuthor);
-                await _context.SaveChangesAsync();
-                _author = mainAuthor;
-                Update();
-
-            }).ConfigureAwait(false);
-        }
-        else
-        {
-            _author = mainAuthor;
-            Update();
-        }
-
-    }
-
+ 
     private void OnCounterClicked(object sender, EventArgs e)
     {
         count++;
@@ -252,39 +188,6 @@ public partial class MainPage : ContentPage
 
         SemanticScreenReader.Announce(CounterBtn.Text);
     }
-
-    void Update()
-    {
-        if (_author != null)
-        {
-            var name = $"{_author.FirstName} {_author.LastName}".Trim();
-
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                LabelInfo.Text = $"{name} have written {_author.Books.Count} book(s)!";
-            });
-
-        }
-    }
-
-    private void OnDeleteClicked(object sender, EventArgs e)
-    {
-        CounterBtn.Text = $"Click Me!";
-        count = 0;
-
-        if (_author != null)
-        {
-            _author.Books.Clear();
-            Task.Run(async () =>
-            {
-                _context.Authors.Update(_author);
-                await _context.SaveChangesAsync();
-                Update();
-
-            }).ConfigureAwait(false);
-        }
-    }
-}
 
 ```
 </details>
