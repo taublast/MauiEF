@@ -181,6 +181,7 @@ We can now compile our sample and run, to have user-created data to be persisten
 As you will see the sample is a Maui App template with database logic added. Context operations are executed asynchronously, so we don't block the UI thread.
 
 <details open><summary>MainPage.cs</summary>
+
 ```csharp
 public partial class MainPage : ContentPage
 {
