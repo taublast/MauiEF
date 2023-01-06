@@ -158,6 +158,38 @@ As you will see the sample is a Maui App template with database logic added. Con
 
 ```csharp
  
+    public MainPage()
+    {
+        _context = App.Services.GetService<LocalDatabase>();
+
+        InitializeComponent();
+
+        var mainAuthor = _context.Authors
+            .Include(i => i.Books)
+            .FirstOrDefault(x => x.FirstName == "John" && x.LastName == "Doe");
+        if (mainAuthor == null)
+        {
+            Task.Run(async () =>
+            {
+                mainAuthor = new Author()
+                {
+                    FirstName = "John",
+                    LastName = "Doe"
+                };
+                _context.Authors.Add(mainAuthor);
+                await _context.SaveChangesAsync();
+                _author = mainAuthor;
+                Update();
+
+            }).ConfigureAwait(false);
+        }
+        else
+        {
+            _author = mainAuthor;
+            Update();
+        }
+
+    }
     private void OnCounterClicked(object sender, EventArgs e)
     {
         count++;
