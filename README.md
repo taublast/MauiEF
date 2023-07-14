@@ -1,7 +1,7 @@
 # Entity Framework With Code-First Migrations in .Net Maui
 
-**By Nick Kovalsky**
+Source code for the article:
 
-[Read the full article](https://medium.com/@taublast/entity-framework-with-code-first-migrations-in-net-maui-3efbdb765592 "Read article")
+[Read the full article here](https://medium.com/@taublast/entity-framework-with-code-first-migrations-in-net-maui-3efbdb765592 "Read article")
 
-Please feel free to ask questions if any: [@nickkovalsky](https://twitter.com/nickkovalsky "@nickkovalsky")
+This article’s goal is to help one avoid all the hassle of looking for different solutions to small problems when implementing a production-ready mobile local database, and creating code-first migrations for it on both Windows and Mac machines.
