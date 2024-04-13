@@ -6,4 +6,4 @@ Source code for the article:
 
 This article’s goal is to help one avoid all the hassle of looking for different solutions to small problems when implementing a production-ready mobile local database, and creating code-first migrations for it on both Windows and Mac machines.
 
-Bonus : https://stackoverflow.com/questions/51388075/is-there-a-right-way-to-add-an-existing-sqlite-database-to-a-xamarin-project/76619869#76619869
+Bonus : [How to ship a pre-created database file with your app](https://stackoverflow.com/questions/51388075/is-there-a-right-way-to-add-an-existing-sqlite-database-to-a-xamarin-project/76619869#76619869)
